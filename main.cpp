@@ -1,5 +1,5 @@
 #include "Game.h"
 
 int main() {
-    new Game();
+    new Game(false);
 }

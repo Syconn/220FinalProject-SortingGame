@@ -8,4 +8,6 @@ add_executable(220FinalMyVersion main.cpp
         ArrayManager.cpp
         Game.cpp
         Game.h
-        ArrayUtil.h)
+        ArrayUtil.h
+        Deck.cpp
+        Deck.h)

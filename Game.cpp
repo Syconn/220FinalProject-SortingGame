@@ -4,11 +4,12 @@
 
 #include "Game.h"
 
-Game::Game() {
+Game::Game(bool playGame) {
     srand(time(nullptr));
     setupArrayLength();
     generateArrayNumbers();
-    play();
+    if (playGame) play();
+    else test();
 }
 
 void Game::setupArrayLength() {
@@ -37,16 +38,24 @@ int Game::selectAlgorithm(const string options[], const int size) {
     return selection;
 }
 
-void Game::play() {
-    const string movesStr[] = {"Buble Sort", "Selection Sort", "Insertion Sort"};
-    void (*moves[])(int[], int) = { bubbleSort, selectionSort, insertionSort };
+void Game::play() const {
+    const string movesStr[] = {"Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort"};
+    void (*moves[])(int[], int) = { bubbleSort, selectionSort, insertionSort, quickSort };
     while (!isSorted(numbers, arraySize)) {
-        constexpr int funcSize = 3;
+        constexpr int funcSize = 4;
         printArray(numbers, arraySize);
         int selection = selectAlgorithm(movesStr, funcSize);
         if (selection <= funcSize && selection >= 1) moves[selection - 1](numbers, arraySize);
     }
     printArray(numbers, arraySize);
+    cout << "Congrats Your Sorted the Array" << endl;
+}
+
+void Game::test() const {
+    while (!isSorted(numbers, arraySize)) {
+        bucketSort(numbers, arraySize);
+        printArray(numbers, arraySize);
+    }
     cout << "Congrats Your Sorted the Array" << endl;
 }
 

@@ -16,11 +16,12 @@ class Game {
     int *numbers;
     void setupArrayLength();
     void generateArrayNumbers();
-    void play();
+    void play() const;
+    void test() const;
 
     static int selectAlgorithm(const string options[], int size); // TODO TEMP
 public:
-    Game();
+    Game(bool playGame);
 };
 
 
