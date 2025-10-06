@@ -5,17 +5,20 @@
 #ifndef INC_220FINALMYVERSION_GAME_H
 #define INC_220FINALMYVERSION_GAME_H
 
-#include "Sorter.h"
+#include "SortUtil.h"
 #include "ArrayUtil.h"
+#include "Card.h"
 #include <iostream>
 
 using namespace std;
 
 class Game {
-    int maxVal = 40, minVal = -40, arraySize;
+    int maxVal = 40, minVal = -40, arraySize, cardSize;
     int *numbers;
+    Card *cards;
     void setupArrayLength();
     void generateArrayNumbers();
+    void createCards();
     void play() const;
     void test() const;
 

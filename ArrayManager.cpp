@@ -2,7 +2,7 @@
 // Created by Aidan on 10/2/2025.
 //
 
-#include "Sorter.h"
+#include "SortUtil.h"
 #include "ArrayUtil.h"
 
 void selectionSort(int arr[], const int size) {

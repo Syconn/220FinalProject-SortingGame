@@ -8,6 +8,7 @@ Game::Game(bool playGame) {
     srand(time(nullptr));
     setupArrayLength();
     generateArrayNumbers();
+    createCards();
     if (playGame) play();
     else test();
 }
@@ -22,6 +23,17 @@ void Game::setupArrayLength() {
 void Game::generateArrayNumbers() {
     numbers = new int[arraySize];
     for (int i = 0; i < arraySize; i++) numbers[i] = rand() % (maxVal - minVal + 1) + minVal;
+}
+
+void Game::createCards() {
+    cardSize = 6;
+    cards = new Card[cardSize];
+    cards[0] = Card("Selection Sort", "", selectionSort);
+    cards[1] = Card("Bubble Sort", "", bubbleSort);
+    cards[2] = Card("Insert Sort", "", insertionSort);
+    cards[3] = Card("Quick Sort", "", quickSort);
+    cards[4] = Card("Merge Sort", "", mergeSort);
+    cards[5] = Card("bucket Sort", "", bucketSort);
 }
 
 int Game::selectAlgorithm(const string options[], const int size) {
