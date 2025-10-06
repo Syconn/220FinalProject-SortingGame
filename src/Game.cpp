@@ -41,12 +41,9 @@ int Game::selectAlgorithm(const string options[], const int size) {
     for (int i = 0; i < size; i++) cout << options[i] << ", ";
     cout << endl << "Pick an Algorithm (1-" << size << ')' << endl;
     getline(cin, selectionStr);
-    int selection = stoi(selectionStr);
-    if (selection <= size && selection >= 1) {
-        cout << "You selected " << options[selection - 1] << endl;
-    } else {
-        cout << "You selected an invalid selection" << endl;
-    }
+    const int selection = stoi(selectionStr);
+    if (selection <= size && selection >= 1) cout << "You selected " << options[selection - 1] << endl;
+    else cout << "You selected an invalid selection" << endl;
     return selection;
 }
 
@@ -56,8 +53,7 @@ void Game::play() const {
     while (!isSorted(numbers, arraySize)) {
         constexpr int funcSize = 4;
         printArray(numbers, arraySize);
-        int selection = selectAlgorithm(movesStr, funcSize);
-        if (selection <= funcSize && selection >= 1) moves[selection - 1](numbers, arraySize);
+        if (int selection = selectAlgorithm(movesStr, funcSize); selection <= funcSize && selection >= 1) moves[selection - 1](numbers, arraySize);
     }
     printArray(numbers, arraySize);
     cout << "Congrats Your Sorted the Array" << endl;

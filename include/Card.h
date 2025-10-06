@@ -5,6 +5,7 @@
 #ifndef INC_220FINALMYVERSION_CARD_H
 #define INC_220FINALMYVERSION_CARD_H
 #include <string>
+#include <utility>
 #include "functional"
 
 using std::string;
@@ -15,8 +16,9 @@ class Card {
     string desc;
     function<void(int[], int)> func;
 public:
-    Card() : name(""), desc(""), func(nullptr) {}
-    Card(const string &name, const string &desc, const function<void(int[], int)> &func) : name(name), desc(desc), func(func) {};
+    Card() : func(nullptr) {}
+    Card(string name, string desc, const function<void(int[], int)> &func) : name(std::move(name)), desc(std::move(desc)), func(func) {}
+    string details();
 };
 
 

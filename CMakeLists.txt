@@ -3,13 +3,14 @@ project(220FinalMyVersion)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(220FinalMyVersion main.cpp
-        SortUtil.h
-        ArrayManager.cpp
-        Game.cpp
-        Game.h
-        ArrayUtil.h
-        Deck.cpp
-        Deck.h
-        Card.cpp
-        Card.h)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+add_executable(220FinalMyVersion
+        src/main.cpp
+        src/structures/ArrayManager.cpp
+        src/Game.cpp
+        src/elements/Hand.cpp
+        src/elements/Card.cpp
+        src/structures/Node.cpp
+        src/elements/Deck.cpp
+)

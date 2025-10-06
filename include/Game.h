@@ -5,9 +5,9 @@
 #ifndef INC_220FINALMYVERSION_GAME_H
 #define INC_220FINALMYVERSION_GAME_H
 
-#include "SortUtil.h"
-#include "ArrayUtil.h"
-#include "Card.h"
+#include "../include/SortUtil.h"
+#include "../include/ArrayUtil.h"
+#include "../include/Card.h"
 #include <iostream>
 
 using namespace std;

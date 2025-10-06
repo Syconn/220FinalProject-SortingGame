@@ -50,7 +50,13 @@ void quickSort(int arr[], const int size) {
     }
 }
 
-void merge(int arr[], int left, int mid, int right) {
+void mergeSort(int arr[], int size) {
+    int left = 0; // Find first unsorted region
+    while (left < size - 1 && arr[left] <= arr[left + 1]) left++;
+    if (left >= size - 1) return;
+    int right = left + 1;
+    while (right < size - 1 && arr[right] > arr[right + 1]) right++;
+    const int mid = (left + right) / 2;
     const int n = right - left + 1;
     const auto tmp = new int[n];  // temporary array
     int i = left;      // pointer for left half
@@ -64,16 +70,6 @@ void merge(int arr[], int left, int mid, int right) {
     while (j <= right) tmp[k++] = arr[j++];
     for (int p = 0; p < n; p++) arr[left + p] = tmp[p];
     delete[] tmp;
-}
-
-void mergeSort(int arr[], int size) {
-    int left = 0; // Find first unsorted region
-    while (left < size - 1 && arr[left] <= arr[left + 1]) left++;
-    if (left >= size - 1) return;
-    int right = left + 1;
-    while (right < size - 1 && arr[right] > arr[right + 1]) right++;
-    const int mid = (left + right) / 2;
-    merge(arr, left, mid, right);
 }
 
 void bucketSort(int arr[], const int size) {
