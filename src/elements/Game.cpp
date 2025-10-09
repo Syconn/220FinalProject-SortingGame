@@ -3,12 +3,16 @@
 //
 
 #include "Game.h"
+#include <iostream>
+#include "ArrayUtil.h"
+#include "SortUtil.h"
 
 Game::Game() {
-    srand(time(nullptr));
-    setupArray();
-    createHand();
-    play();
+    winServer = new WinServer(8080);
+    // srand(time(nullptr));
+    // setupArray();
+    // createHand();
+    // play();
 }
 
 void Game::setupArray() {
@@ -28,7 +32,7 @@ void Game::createHand() {
     cards[2] = Card("Insert Sort", "", insertionSort);
     cards[3] = Card("Quick Sort", "", quickSort);
     cards[4] = Card("Merge Sort", "", mergeSort);
-    cards[5] = Card("bucket Sort", "", bucketSort);
+    cards[5] = Card("Bucket Sort", "", bucketSort);
     hand = new Hand([this] { return getNextCard(); });
 }
 

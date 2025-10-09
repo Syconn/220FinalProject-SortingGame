@@ -6,21 +6,20 @@
 #define INC_220FINALMYVERSION_GAME_H
 
 #include "Card.h"
-#include "SortUtil.h"
-#include "ArrayUtil.h"
-#include <iostream>
 #include "Hand.h"
+#include "WinServer.h"
 
 using namespace std;
 
 class Game {
-    int maxVal = 40, minVal = -40, arraySize, cardSize;
-    int *numbers;
-    Card *cards;
-    Hand *hand;
+    int maxVal = 40, minVal = -40, arraySize{}, cardSize{};
+    int *numbers{};
+    Card *cards{};
+    Hand *hand{};
+    WinServer* winServer;
     void setupArray();
     void createHand();
-    Card getNextCard() const;
+    [[nodiscard]] Card getNextCard() const;
     void play() const;
 public:
     explicit Game();

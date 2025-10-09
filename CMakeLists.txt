@@ -8,7 +8,11 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 add_executable(220FinalMyVersion
         src/main.cpp
         src/structures/ArrayManager.cpp
-        src/Game.cpp
+        src/elements/Game.cpp
         src/elements/Hand.cpp
         src/elements/Card.cpp
+        src/server/WinServer.cpp
 )
+
+# Link Winsock
+target_link_libraries(220FinalMyVersion ws2_32)

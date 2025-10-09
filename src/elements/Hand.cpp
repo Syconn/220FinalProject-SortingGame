@@ -6,9 +6,7 @@
 
 Hand::Hand(const function<Card()> &nextCard) {
     this->nextCard = nextCard;
-    for (int i = 0; i < size; i++) {
-        cards[i] = nextCard();
-    }
+    for (auto & card : cards) card = nextCard();
 }
 
 void Hand::pickCard(int arr[], const int arraySize) {
