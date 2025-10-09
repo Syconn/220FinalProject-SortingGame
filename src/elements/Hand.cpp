@@ -13,9 +13,9 @@ Hand::Hand(const function<Card()> &nextCard) {
 
 void Hand::pickCard(int arr[], const int arraySize) {
     string selectionStr;
-    std::cout << "Your Hand: ";
+    std::cout << "Your Hand:" << std::endl;
     printHand();
-    std::cout << "Pick a Car (1-" << size + 1 << ')' << std::endl;
+    std::cout << "Pick a Car (1-" << size << ')' << std::endl;
     getline(std::cin, selectionStr);
     if (const int select = stoi(selectionStr) - 1; select < size && select >= 0) {
         std::cout << "You selected " << cards[select].details() << std::endl;
@@ -25,7 +25,6 @@ void Hand::pickCard(int arr[], const int arraySize) {
 }
 
 void Hand::printHand() {
-    for (int i = 0; i < size; i++) std::cout << i + 1 << " " << cards[i].details() << " ";
-    std::cout << std::endl;
+    for (int i = 0; i < size; i++) std::cout << i + 1 << " " << cards[i].details() << std::endl;
 }
 
