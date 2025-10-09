@@ -11,6 +11,4 @@ add_executable(220FinalMyVersion
         src/Game.cpp
         src/elements/Hand.cpp
         src/elements/Card.cpp
-        src/structures/Node.cpp
-        src/elements/Deck.cpp
 )

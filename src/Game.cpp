@@ -4,66 +4,50 @@
 
 #include "Game.h"
 
-Game::Game(bool playGame) {
+Game::Game() {
     srand(time(nullptr));
-    setupArrayLength();
-    generateArrayNumbers();
-    createCards();
-    if (playGame) play();
-    else test();
+    setupArray();
+    createHand();
+    play();
 }
 
-void Game::setupArrayLength() {
-    std::cout << "TESTING How long do you want the array to be?" << std::endl;
+void Game::setupArray() {
+    std::cout << "How long do you want the array to be?" << std::endl;
     string selectionStr;
     getline(cin, selectionStr);
     arraySize = stoi(selectionStr);
-}
-
-void Game::generateArrayNumbers() {
     numbers = new int[arraySize];
     for (int i = 0; i < arraySize; i++) numbers[i] = rand() % (maxVal - minVal + 1) + minVal;
 }
 
-void Game::createCards() {
+void Game::createHand() {
     cardSize = 6;
-    cards = new Card[cardSize];
+    cards = new Card[cardSize]; // Creates all the possible cards
     cards[0] = Card("Selection Sort", "", selectionSort);
     cards[1] = Card("Bubble Sort", "", bubbleSort);
     cards[2] = Card("Insert Sort", "", insertionSort);
     cards[3] = Card("Quick Sort", "", quickSort);
     cards[4] = Card("Merge Sort", "", mergeSort);
     cards[5] = Card("bucket Sort", "", bucketSort);
+    hand = new Hand([this] { return getNextCard(); });
 }
 
-int Game::selectAlgorithm(const string options[], const int size) {
-    string selectionStr;
-    for (int i = 0; i < size; i++) cout << options[i] << ", ";
-    cout << endl << "Pick an Algorithm (1-" << size << ')' << endl;
-    getline(cin, selectionStr);
-    const int selection = stoi(selectionStr);
-    if (selection <= size && selection >= 1) cout << "You selected " << options[selection - 1] << endl;
-    else cout << "You selected an invalid selection" << endl;
-    return selection;
+Card Game::getNextCard() const {
+    return cards[rand() % cardSize];
 }
 
 void Game::play() const {
-    const string movesStr[] = {"Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort"};
-    void (*moves[])(int[], int) = { bubbleSort, selectionSort, insertionSort, quickSort };
     while (!isSorted(numbers, arraySize)) {
-        constexpr int funcSize = 4;
         printArray(numbers, arraySize);
-        if (int selection = selectAlgorithm(movesStr, funcSize); selection <= funcSize && selection >= 1) moves[selection - 1](numbers, arraySize);
+        hand->pickCard(numbers, arraySize);
     }
     printArray(numbers, arraySize);
     cout << "Congrats Your Sorted the Array" << endl;
 }
 
-void Game::test() const {
-    while (!isSorted(numbers, arraySize)) {
-        bucketSort(numbers, arraySize);
-        printArray(numbers, arraySize);
-    }
-    cout << "Congrats Your Sorted the Array" << endl;
+Game::~Game() {
+    delete hand;
+    delete[] numbers;
+    delete[] cards;
 }
 

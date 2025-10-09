@@ -3,3 +3,12 @@
 //
 
 #include "Card.h"
+
+string Card::details() {
+    return name;
+}
+
+void Card::sortArray(int arr[], const int size) const {
+    func(arr, size);
+}
+

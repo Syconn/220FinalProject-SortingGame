@@ -5,10 +5,11 @@
 #ifndef INC_220FINALMYVERSION_GAME_H
 #define INC_220FINALMYVERSION_GAME_H
 
-#include "../include/SortUtil.h"
-#include "../include/ArrayUtil.h"
-#include "../include/Card.h"
+#include "Card.h"
+#include "SortUtil.h"
+#include "ArrayUtil.h"
 #include <iostream>
+#include "Hand.h"
 
 using namespace std;
 
@@ -16,15 +17,14 @@ class Game {
     int maxVal = 40, minVal = -40, arraySize, cardSize;
     int *numbers;
     Card *cards;
-    void setupArrayLength();
-    void generateArrayNumbers();
-    void createCards();
+    Hand *hand;
+    void setupArray();
+    void createHand();
+    Card getNextCard() const;
     void play() const;
-    void test() const;
-
-    static int selectAlgorithm(const string options[], int size); // TODO TEMP
 public:
-    Game(bool playGame);
+    explicit Game();
+    ~Game();
 };
 
 

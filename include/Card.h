@@ -6,7 +6,8 @@
 #define INC_220FINALMYVERSION_CARD_H
 #include <string>
 #include <utility>
-#include "functional"
+#include <functional>
+#include <iostream>
 
 using std::string;
 using std::function;
@@ -19,6 +20,7 @@ public:
     Card() : func(nullptr) {}
     Card(string name, string desc, const function<void(int[], int)> &func) : name(std::move(name)), desc(std::move(desc)), func(func) {}
     string details();
+    void sortArray(int arr[], int size) const;
 };
 
 
