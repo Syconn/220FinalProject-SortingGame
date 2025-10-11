@@ -3,7 +3,7 @@
 //
 
 #include "WinServer.h"
-#include "GameState.h"
+#include "Game.h"
 #include <iostream>
 
 WinServer::WinServer(const int port) {
@@ -33,19 +33,29 @@ void WinServer::stop() const {
     WSACleanup();
 }
 
-void WinServer::poll(Game game) {
+void WinServer::poll(Game* game) {
     const SOCKET clientSocket = accept(serverSocket, reinterpret_cast<sockaddr *>(&clientAddr), &clientAddrSize);
     if (clientSocket == INVALID_SOCKET) return;
 
     char buffer[2048];
     if (const int bytesReceived = recv(clientSocket, buffer, sizeof(buffer) - 1, 0); bytesReceived > 0) {
         buffer[bytesReceived] = '\0';
-        const std::string request(buffer);
-        const std::string response = handleRequest(request);
-        send(clientSocket, response.c_str(), response.size(), 0);
+        const string request(buffer);
+        const int response = handleRequest(request);
+        const string res = respond(response);
+        send(clientSocket, res.c_str(), res.size(), 0);
     }
     closesocket(clientSocket);
 }
+
+string WinServer::respond(int id) {
+    return "HTTP/1.1 404 Not Found\r\n"
+           "Content-Type: text/plain\r\n"
+           "Access-Control-Allow-Origin: *\r\n"
+           "\r\n"
+           "Route not found.";
+}
+
 
 WinServer::~WinServer() {
     stop();

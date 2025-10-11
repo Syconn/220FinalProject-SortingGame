@@ -7,11 +7,11 @@
 
 #include <winsock2.h>
 #include <string>
-
-#include "Game.h"
 #pragma comment(lib, "ws2_32.lib")
 
 using std::string;
+
+class Game;
 
 class WinServer {
     SOCKET serverSocket{};
@@ -19,11 +19,12 @@ class WinServer {
     int clientAddrSize{};
     int testCount{};
     int port;
+    string respond(int id);
     void start();
     void stop() const;
 public:
     explicit WinServer(int port);
-    void poll(Game game);
+    void poll(Game* game);
     ~WinServer();
 };
 

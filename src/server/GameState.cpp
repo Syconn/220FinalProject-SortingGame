@@ -4,3 +4,6 @@
 
 #include "GameState.h"
 
+int handleRequest(const string& request) {
+    return 0;
+}

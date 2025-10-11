@@ -9,8 +9,8 @@
 Game::Game() {
     srand(time(nullptr));
     winServer = new WinServer(8080);
-    setupArray();
-    createHand();
+    // setupArray();
+    // createHand();
     run();
 }
 
@@ -51,7 +51,10 @@ bool Game::turn() const {
 void Game::run() const {
     while (running) {
         if (!playing) {
-            winServer->poll(this);
+            winServer->poll(const_cast<Game*>(this));
+        }
+        if (state == GameState::Play) {
+            cout << "playing" << endl;
         }
     }
 }

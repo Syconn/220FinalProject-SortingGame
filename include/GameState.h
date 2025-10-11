@@ -11,9 +11,9 @@ using std::string;
 
 enum class GameState {
     MainMenu,
-    Turn,
+    Play,
 };
 
-string handleRequest(const string& request);
+int handleRequest(const string& request);
 
 #endif //INC_220FINALMYVERSION_GAMESTATE_H
