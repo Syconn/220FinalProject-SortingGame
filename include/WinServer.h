@@ -7,6 +7,8 @@
 
 #include <winsock2.h>
 #include <string>
+
+#include "Game.h"
 #pragma comment(lib, "ws2_32.lib")
 
 using std::string;
@@ -19,10 +21,9 @@ class WinServer {
     int port;
     void start();
     void stop() const;
-    void run();
-    string handleRequest(const string& request);
 public:
-    WinServer(int port);
+    explicit WinServer(int port);
+    void poll(Game game);
     ~WinServer();
 };
 

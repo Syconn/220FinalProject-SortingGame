@@ -3,30 +3,27 @@
 //
 
 #include "Game.h"
-#include <iostream>
 #include "ArrayUtil.h"
 #include "SortUtil.h"
 
 Game::Game() {
+    srand(time(nullptr));
     winServer = new WinServer(8080);
-    // srand(time(nullptr));
-    // setupArray();
-    // createHand();
-    // play();
+    setupArray();
+    createHand();
+    run();
 }
 
 void Game::setupArray() {
-    std::cout << "How long do you want the array to be?" << std::endl;
-    string selectionStr;
-    getline(cin, selectionStr);
-    arraySize = stoi(selectionStr);
+    // std::cout << "How long do you want the array to be?" << std::endl; TODO CUSTOMIZATION CODE
+    // string selectionStr;
+    // getline(cin, selectionStr); # stoi(selectionStr)
     numbers = new int[arraySize];
     for (int i = 0; i < arraySize; i++) numbers[i] = rand() % (maxVal - minVal + 1) + minVal;
 }
 
 void Game::createHand() {
-    cardSize = 6;
-    cards = new Card[cardSize]; // Creates all the possible cards
+    cards = new Card[cardSize];
     cards[0] = Card("Selection Sort", "", selectionSort);
     cards[1] = Card("Bubble Sort", "", bubbleSort);
     cards[2] = Card("Insert Sort", "", insertionSort);
@@ -40,13 +37,23 @@ Card Game::getNextCard() const {
     return cards[rand() % cardSize];
 }
 
-void Game::play() const {
-    while (!isSorted(numbers, arraySize)) {
+bool Game::turn() const {
+    if (isSorted(numbers, arraySize)) {
         printArray(numbers, arraySize);
-        hand->pickCard(numbers, arraySize);
+        cout << "Congrats Your Sorted the Array" << endl;
+        return true;
     }
     printArray(numbers, arraySize);
-    cout << "Congrats Your Sorted the Array" << endl;
+    hand->pickCard(numbers, arraySize);
+    return false;
+}
+
+void Game::run() const {
+    while (running) {
+        if (!playing) {
+            winServer->poll(this);
+        }
+    }
 }
 
 Game::~Game() {

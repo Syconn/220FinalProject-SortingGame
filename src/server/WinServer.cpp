@@ -3,53 +3,12 @@
 //
 
 #include "WinServer.h"
+#include "GameState.h"
 #include <iostream>
 
 WinServer::WinServer(const int port) {
     this->port = port;
     start();
-    run();
-}
-
-string WinServer::handleRequest(const string& request) {
-    // Handle POST /click
-    if (request.find("POST /click") != string::npos) {
-        testCount++;
-        const string body = "{\"count\": " + std::to_string(testCount) + "}";
-        return "HTTP/1.1 200 OK\r\n"
-               "Content-Type: application/json\r\n"
-               "Access-Control-Allow-Origin: *\r\n"
-               "Access-Control-Allow-Methods: POST, GET, OPTIONS\r\n"
-               "Access-Control-Allow-Headers: Content-Type\r\n"
-               "\r\n" +
-               body;
-    }
-
-    // Handle GET /count (for optional refresh)
-    if (request.find("GET /count") != string::npos) {
-        const string body = "{\"count\": " + std::to_string(testCount) + "}";
-        return "HTTP/1.1 200 OK\r\n"
-               "Content-Type: application/json\r\n"
-               "Access-Control-Allow-Origin: *\r\n"
-               "\r\n" +
-               body;
-    }
-
-    // Handle OPTIONS (CORS preflight)
-    if (request.find("OPTIONS") != string::npos) {
-        return "HTTP/1.1 204 No Content\r\n"
-               "Access-Control-Allow-Origin: *\r\n"
-               "Access-Control-Allow-Methods: POST, GET, OPTIONS\r\n"
-               "Access-Control-Allow-Headers: Content-Type\r\n"
-               "\r\n";
-    }
-
-    // Default route
-    return "HTTP/1.1 404 Not Found\r\n"
-           "Content-Type: text/plain\r\n"
-           "Access-Control-Allow-Origin: *\r\n"
-           "\r\n"
-           "Route not found.";
 }
 
 void WinServer::start() {
@@ -74,24 +33,18 @@ void WinServer::stop() const {
     WSACleanup();
 }
 
-void WinServer::run() {
-    while (true) {
-        const SOCKET clientSocket = accept(serverSocket, reinterpret_cast<sockaddr *>(&clientAddr), &clientAddrSize);
-        if (clientSocket == INVALID_SOCKET) continue;
+void WinServer::poll(Game game) {
+    const SOCKET clientSocket = accept(serverSocket, reinterpret_cast<sockaddr *>(&clientAddr), &clientAddrSize);
+    if (clientSocket == INVALID_SOCKET) return;
 
-        char buffer[2048];
-        int bytesReceived = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
-        if (bytesReceived > 0) {
-            buffer[bytesReceived] = '\0';
-            std::string request(buffer);
-
-            std::cout << "Received request:\n" << request << std::endl;
-
-            std::string response = handleRequest(request);
-            send(clientSocket, response.c_str(), response.size(), 0);
-        }
-        closesocket(clientSocket);
+    char buffer[2048];
+    if (const int bytesReceived = recv(clientSocket, buffer, sizeof(buffer) - 1, 0); bytesReceived > 0) {
+        buffer[bytesReceived] = '\0';
+        const std::string request(buffer);
+        const std::string response = handleRequest(request);
+        send(clientSocket, response.c_str(), response.size(), 0);
     }
+    closesocket(clientSocket);
 }
 
 WinServer::~WinServer() {

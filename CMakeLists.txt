@@ -12,6 +12,7 @@ add_executable(220FinalMyVersion
         src/elements/Hand.cpp
         src/elements/Card.cpp
         src/server/WinServer.cpp
+        src/server/GameState.cpp
 )
 
 # Link Winsock

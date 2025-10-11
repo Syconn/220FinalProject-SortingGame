@@ -8,19 +8,24 @@
 #include "Card.h"
 #include "Hand.h"
 #include "WinServer.h"
+#include "GameState.h"
 
 using namespace std;
 
 class Game {
-    int maxVal = 40, minVal = -40, arraySize{}, cardSize{};
+    int maxVal = 40, minVal = -40, arraySize = 10, cardSize = 6;
     int *numbers{};
     Card *cards{};
     Hand *hand{};
-    WinServer* winServer;
+    WinServer* winServer{};
+    GameState state = GameState::MainMenu;
+    bool playing = false, running = true;
+    // bool gameOver{};
     void setupArray();
     void createHand();
+    bool turn() const;
+    void run() const;
     [[nodiscard]] Card getNextCard() const;
-    void play() const;
 public:
     explicit Game();
     ~Game();
