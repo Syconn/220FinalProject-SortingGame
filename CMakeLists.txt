@@ -8,11 +8,11 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 add_executable(220FinalMyVersion
         src/main.cpp
         src/structures/ArrayManager.cpp
-        src/elements/Game.cpp
-        src/elements/Hand.cpp
         src/elements/Card.cpp
         src/server/WinServer.cpp
-        src/server/GameState.cpp
+        src/Game.cpp
+#        include/Constants.h
+        src/server/WebRequests.cpp
 )
 
 # Link Winsock
