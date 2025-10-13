@@ -6,8 +6,10 @@
 #include "WebRequests.h"
 #include <iostream>
 
-WinServer::WinServer(const int port) {
+WinServer::WinServer(const int port, Game* game) {
     this->port = port;
+    this->game = game;
+    webRequests = new WebRequests(game);
     start();
 }
 
@@ -33,21 +35,22 @@ void WinServer::stop() const {
     WSACleanup();
 }
 
-int WinServer::poll() {
+void WinServer::poll() {
     const SOCKET clientSocket = accept(serverSocket, reinterpret_cast<sockaddr *>(&clientAddr), &clientAddrSize);
-    if (clientSocket == INVALID_SOCKET) return 0;
+    if (clientSocket == INVALID_SOCKET) return;
 
     char buffer[2048];
-    int request = 0;
     if (const int bytesReceived = recv(clientSocket, buffer, sizeof(buffer) - 1, 0); bytesReceived > 0) {
         buffer[bytesReceived] = '\0';
         const string requestStr(buffer);
-        request = handleRequest(requestStr);
-        const string res = response(request);
+        const int code = webRequests->handleRequest(requestStr); // Move after testing
+        const string res = webRequests->response(code);
+        // cout << code << endl;
+        // cout << "Response: " << res << endl;
+        // std::cout << "Received request:\n" << requestStr << std::endl;
         send(clientSocket, res.c_str(), res.size(), 0);
     }
     closesocket(clientSocket);
-    return request;
 }
 
 WinServer::~WinServer() {

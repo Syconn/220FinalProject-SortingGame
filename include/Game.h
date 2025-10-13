@@ -7,8 +7,10 @@
 
 #include "Constants.h"
 #include "WinServer.h"
+#include "WebRequests.h"
 
 class Game {
+    friend class WebRequests;
     string gameState = MainMenu;
     WinServer* winServer;
     bool running = true;

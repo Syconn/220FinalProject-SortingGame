@@ -3,7 +3,6 @@
 //
 
 #include "Game.h"
-
 #include <iostream>
 
 Game::Game() {
@@ -12,14 +11,13 @@ Game::Game() {
 }
 
 void Game::setup() {
-    winServer = new WinServer(8080);
+    winServer = new WinServer(8080, this);
 }
 
 void Game::run() {
     while (running) {
-        cout << "polling" << endl;
-        const int poll = winServer->poll();
-        cout << poll << endl;
+        cout << gameState << endl;
+        winServer->poll();
     }
 }
 

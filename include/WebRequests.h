@@ -10,7 +10,19 @@
 
 using namespace std;
 
-int handleRequest(const string &request);
-string response(int code);
+class Game;
+
+class WebRequests {
+    Game* game;
+    string data;
+    static string sendContent(const string& body);
+    static string sendResult(bool success);
+public:
+    explicit WebRequests(Game* game): game(game) {}
+    string response(int code) const;
+    int handleRequest(const string &request);
+};
+
+string getBodyValue(const string& data);
 
 #endif //INC_220FINALMYVERSION_WEBREQUESTS_H

@@ -12,13 +12,17 @@
 
 #include <winsock2.h>
 #include <string>
+
+#include "WebRequests.h"
 #pragma comment(lib, "ws2_32.lib")
 
 using std::string;
 
-// class Game;
+class Game;
 
 class WinServer {
+    Game* game;
+    WebRequests* webRequests;
     SOCKET serverSocket{};
     sockaddr_in clientAddr{};
     int clientAddrSize{};
@@ -27,8 +31,8 @@ class WinServer {
     void start();
     void stop() const;
 public:
-    explicit WinServer(int port);
-    int poll();
+    explicit WinServer(int port, Game* game);
+    void poll();
     ~WinServer();
 };
 
