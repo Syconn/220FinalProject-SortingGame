@@ -16,7 +16,6 @@ void Game::setup() {
 
 void Game::run() {
     while (running) {
-        cout << gameState << endl;
         winServer->poll();
     }
 }

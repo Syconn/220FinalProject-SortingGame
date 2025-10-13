@@ -57,7 +57,7 @@ string WebRequests::sendResult(const bool success) {
                "Access-Control-Allow-Methods: POST, GET, OPTIONS\r\n"
                "Access-Control-Allow-Headers: Content-Type\r\n"
                "\r\n"
-               "{\"page\":" + to_string(success) + "}";
+               "{\"success\":" + to_string(success) + "}";
 }
 
 string getBodyValue(const string& data) {
