@@ -4,6 +4,7 @@
 
 #include "SortUtil.h"
 #include "ArrayUtil.h"
+#include "Card.h"
 
 void selectionSort(int arr[], const int size) {
     int i = 0;
@@ -130,4 +131,15 @@ void printArray(const int arr[], const int size) {
 bool isSorted(const int arr[], const int size) {
     for (int i = 1; i < size; i++) if (arr[i] < arr[i - 1]) return false;
     return true;
+}
+
+string jsonifyArray(const int arr[], const int size) {
+    if (arr == nullptr) return "{\"array\":[]}";
+    string result = "{\"array\":[";
+    for (int i = 0; i < size; i++) {
+        result += std::to_string(arr[i]);
+        if (i < size - 1) result += ",";
+    }
+    result += "]}";
+    return result;
 }

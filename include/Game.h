@@ -7,15 +7,17 @@
 
 #include "Constants.h"
 #include "WinServer.h"
-#include "WebRequests.h"
 
 class Game {
     friend class WebRequests;
     string gameState = MainMenu;
     WinServer* winServer;
+    int* sortArray{};
+    int sortArraySize = 10, minVal = -20, maxVal = 20;
     bool running = true;
     bool playing = false;
     void setup();
+    void setupPlay();
     void run();
 public:
     Game();

@@ -3,7 +3,6 @@
 //
 
 #include "Game.h"
-#include <iostream>
 
 Game::Game() {
     setup();
@@ -11,12 +10,21 @@ Game::Game() {
 }
 
 void Game::setup() {
-    winServer = new WinServer(8080, this);
+    winServer = new WinServer(8080, this); // Start Web Server
+    srand(time(nullptr));
+}
+
+void Game::setupPlay() {
+    playing = true; // Signal Playing
+
+    sortArray = new int[sortArraySize]; // Create Array
+    for (int i = 0; i < sortArraySize; i++) sortArray[i] = rand() % (maxVal - minVal + 1) + minVal;
 }
 
 void Game::run() {
     while (running) {
         winServer->poll();
+        if (!playing && gameState == GameLoop) setupPlay();
     }
 }
 

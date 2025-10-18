@@ -5,13 +5,22 @@
 #include "WebRequests.h"
 #include "Constants.h"
 #include "Game.h"
+#include "ArrayUtil.h"
 
 int WebRequests::handleRequest(const string &request) {
     data = getBodyValue(request);
+
+    // GET Requests
     if (request.find("OPTIONS") != string::npos) return OPTIONS;
     if (request.find("GET /page") != string::npos) return PAGE;
+    if (request.find("GET /status") != string::npos) return STATUS;
+    if (request.find("GET /array") != string::npos) return ARRAY;
+
+
+    // POST Requests
     if (request.find("POST /setPage") != string::npos) return SET_PAGE;
-    return ERROR;
+
+    return NO_RET;
 }
 
 string WebRequests::response(const int code) const {
@@ -23,7 +32,10 @@ string WebRequests::response(const int code) const {
             "\r\n";
     }
 
-    if (code == PAGE) return sendContent("{\"page\": \"" + game->gameState + "\"}");
+    if (code == PAGE) return sendContent(R"({"page": ")" + game->gameState + "\"}");
+    if (code == ARRAY) return sendContent(jsonifyArray(game->sortArray, game->sortArraySize));
+
+    if (code == STATUS) return sendResult(true);
     if (code == SET_PAGE) {
         if (!data.empty()) {
             game->gameState = data;
@@ -63,7 +75,7 @@ string WebRequests::sendResult(const bool success) {
 string getBodyValue(const string& data) {
     if (const auto startIndex = data.find("body"); startIndex != string::npos) {
         auto value = data.substr(startIndex + 7);
-        const auto endIndex = value.find("\"");
+        const auto endIndex = value.find('\"');
         return value.substr(0, endIndex);
     }
     return "";
