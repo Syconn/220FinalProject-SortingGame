@@ -10,7 +10,8 @@ add_executable(220FinalMyVersion
         src/structures/ArrayManager.cpp
         src/elements/Card.cpp
         src/server/WinServer.cpp
-        src/Game.cpp
+        src/elements/Game.cpp
+        src/structures/Deck.cpp
         src/server/WebRequests.cpp
 )
 

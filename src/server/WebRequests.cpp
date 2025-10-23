@@ -15,10 +15,12 @@ int WebRequests::handleRequest(const string &request) {
     if (request.find("GET /page") != string::npos) return PAGE;
     if (request.find("GET /status") != string::npos) return STATUS;
     if (request.find("GET /array") != string::npos) return ARRAY;
-
+    if (request.find("GET /deck") != string::npos) return CARDS;
 
     // POST Requests
+    if (request.find("POST /cardClicked") != string::npos) return CLICK_CARD;
     if (request.find("POST /setPage") != string::npos) return SET_PAGE;
+    if (request.find("POST /restart") != string::npos) return RESTART;
 
     return NO_RET;
 }
@@ -34,15 +36,14 @@ string WebRequests::response(const int code) const {
 
     if (code == PAGE) return sendContent(R"({"page": ")" + game->gameState + "\"}");
     if (code == ARRAY) return sendContent(jsonifyArray(game->sortArray, game->sortArraySize));
-
+    if (code == CARDS) return sendContent(game->deck->jsonify());
     if (code == STATUS) return sendResult(true);
+
     if (code == SET_PAGE) {
-        if (!data.empty()) {
-            game->gameState = data;
-            return sendResult(true);
-        }
-        return sendResult(false);
+        game->gameState = data;
+        return sendResult(true);
     }
+    if (code == CLICK_CARD) return sendResult(game->deck->sortArray(stoi(data), game->sortArray, game->sortArraySize));
 
     // Error route
     return "HTTP/1.1 404 Not Found\r\n"
@@ -73,10 +74,18 @@ string WebRequests::sendResult(const bool success) {
 }
 
 string getBodyValue(const string& data) {
-    if (const auto startIndex = data.find("body"); startIndex != string::npos) {
-        auto value = data.substr(startIndex + 7);
-        const auto endIndex = value.find('\"');
-        return value.substr(0, endIndex);
+    if (const auto startIndex = data.find("\"body\""); startIndex != string::npos) {
+        size_t valueIndex = data.find(':', startIndex);
+        if (valueIndex == string::npos) return "";
+        valueIndex++; // move past ':'
+        while (valueIndex < data.size() && isspace(data[valueIndex])) valueIndex++;
+        if (data[valueIndex] == '\"') {
+            valueIndex++; // skip quote
+            const size_t endIndex = data.find('\"', valueIndex);
+            return data.substr(valueIndex, endIndex - valueIndex);
+        }
+        const size_t endIndex = data.find_first_of(",}", valueIndex);
+        return data.substr(valueIndex, endIndex - valueIndex);
     }
     return "";
 }

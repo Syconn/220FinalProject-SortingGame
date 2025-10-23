@@ -15,12 +15,13 @@ using std::function;
 class Card {
     string name;
     string desc;
+    string img;
     function<void(int[], int)> func;
 public:
     Card() : func(nullptr) {}
-    Card(string name, string desc, const function<void(int[], int)> &func) : name(std::move(name)), desc(std::move(desc)), func(func) {}
-    string details();
+    Card(string name, string img, string desc, const function<void(int[], int)> &func): name(std::move(name)), desc(std::move(desc)), img(std::move(img)), func(func) {}
     void sortArray(int arr[], int size) const;
+    string jsonify() const;
 };
 
 

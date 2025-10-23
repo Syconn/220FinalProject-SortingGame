@@ -5,8 +5,6 @@
 #ifndef INC_220FINALMYVERSION_SORTER_H
 #define INC_220FINALMYVERSION_SORTER_H
 
-#include <iostream>
-
 void selectionSort(int arr[], int size);
 void bubbleSort(int arr[], int size);
 void insertionSort(int arr[], int size);

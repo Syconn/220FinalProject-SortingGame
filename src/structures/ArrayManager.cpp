@@ -133,6 +133,11 @@ bool isSorted(const int arr[], const int size) {
     return true;
 }
 
+bool contains(const int arr[], const int len, const int elem) {
+    for (int i = 0; i < len; ++i) if (arr[i] == elem) return true;
+    return false;
+}
+
 string jsonifyArray(const int arr[], const int size) {
     if (arr == nullptr) return "{\"array\":[]}";
     string result = "{\"array\":[";
@@ -140,6 +145,5 @@ string jsonifyArray(const int arr[], const int size) {
         result += std::to_string(arr[i]);
         if (i < size - 1) result += ",";
     }
-    result += "]}";
-    return result;
+    return result += "]}";
 }

@@ -4,11 +4,12 @@
 
 #include "Card.h"
 
-string Card::details() {
-    return name;
-}
-
 void Card::sortArray(int arr[], const int size) const {
     func(arr, size);
 }
+
+string Card::jsonify() const {
+    return "{\"name\":\"" + name + "\", \"image\":\"" + img + "\", \"description\":\"" + desc + "\"}";
+}
+
 
