@@ -43,6 +43,10 @@ string WebRequests::response(const int code) const {
         game->gameState = data;
         return sendResult(true);
     }
+    if (code == RESTART) {
+        game->restart();
+        return sendResult(true);
+    }
     if (code == CLICK_CARD) return sendResult(game->deck->sortArray(stoi(data), game->sortArray, game->sortArraySize));
 
     // Error route

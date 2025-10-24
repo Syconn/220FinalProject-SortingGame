@@ -30,6 +30,14 @@ void Game::setupPlay() {
     deck = new Deck(new Card[4] {cards[0], cards[1], cards[2], cards[3]}, 4);
 }
 
+void Game::restart() {
+    delete[] deck;
+    delete[] sortArray;
+
+    setupPlay();
+}
+
+
 void Game::createCards() {
     cards = new Card[cardSize];
     cards[0] = Card("Selection Sort", "selection.png", "Inserts each new element into its correct position among the already-sorted elements", selectionSort);

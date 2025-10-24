@@ -24,6 +24,7 @@ class Game {
     void setupPlay();
     void run();
     void createCards();
+    void restart();
 public:
     Game();
     ~Game();
